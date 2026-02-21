@@ -12,6 +12,7 @@ contract Governance is IGovernance {
     error ActionFailed(string reason);
 
     AddressManager private _addressManager;
+    address private _owner;
     IMember private _memberContract;
     IProposal private _proposalContract;
     IPayouts private _payoutsContract;
@@ -29,6 +30,7 @@ contract Governance is IGovernance {
 
     constructor(address _addressManagerAddr) {
         _addressManager = AddressManager(payable(_addressManagerAddr));
+        _owner = msg.sender;
     }
 
     function addressManager() external view returns (AddressManager) {
@@ -68,17 +70,26 @@ contract Governance is IGovernance {
     }
 
     function setMemberContract(address _memberContractAddr) external {
-        require(address(_addressManager.member()) == msg.sender, "Only member contract");
+        require(
+            address(_addressManager.member()) == msg.sender || msg.sender == _owner,
+            "Only member contract or owner"
+        );
         _memberContract = IMember(_memberContractAddr);
     }
 
     function setProposalContract(address _proposalContractAddr) external {
-        require(address(_addressManager.proposal()) == msg.sender, "Only proposal contract");
+        require(
+            address(_addressManager.proposal()) == msg.sender || msg.sender == _owner,
+            "Only proposal contract or owner"
+        );
         _proposalContract = IProposal(_proposalContractAddr);
     }
 
     function setPayoutsContract(address _payoutsContractAddr) external {
-        require(address(_addressManager.payouts()) == msg.sender, "Only payouts contract");
+        require(
+            address(_addressManager.payouts()) == msg.sender || msg.sender == _owner,
+            "Only payouts contract or owner"
+        );
         _payoutsContract = IPayouts(_payoutsContractAddr);
     }
 

@@ -14,7 +14,27 @@ npm run compile
 - `npm run compile` – compile contracts
 - `npm run test` – run tests
 - `npm run deploy:local` – deploy to local Hardhat network
+- `pnpm run deploy:base-sepolia` – deploy to Base Sepolia testnet
 - `npm run clean` – clean artifacts and cache
+
+## Deploy to Base Sepolia testnet
+
+1. Copy env template and fill values:
+
+```bash
+cp .env.example .env
+```
+
+2. Set:
+- `BASE_SEPOLIA_RPC_URL` (Alchemy/Infura/Base endpoint)
+- `PRIVATE_KEY` (deployer wallet private key with `0x` prefix)
+- `BASESCAN_API_KEY` (optional, only needed for contract verification)
+
+3. Deploy:
+
+```bash
+pnpm run deploy:base-sepolia
+```
 
 ## Contract layout
 
