@@ -11,6 +11,8 @@ contract AddressManager is IAddressManager {
 
     event Log(string message);
 
+    receive() external payable {}
+
     function governance() external view returns (address) {
         return _governance;
     }
